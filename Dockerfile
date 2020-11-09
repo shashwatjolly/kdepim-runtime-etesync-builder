@@ -1,5 +1,5 @@
-# cd into the source code dir for kdepim-runtime-etesync-20.08
-# docker run --rm -v $(pwd):/kdepim-runtime-etesync-20.08 debian-sid-kde-libetebase  /kdepim-runtime-etesync-20.08/build/build-kdepim-runtime-etesync.sh
+# cd into the source code dir for kdepim-runtime with the etesync resource
+# docker run --rm -v $(pwd):/code debian-sid-kde-libetebase  
 
 FROM debian:sid
 
@@ -10,14 +10,7 @@ RUN set -ex \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
                build-essential \
-               cdbs \
-               devscripts \
-               equivs \
-               fakeroot \
-    && useradd shashwat \
-    && groupadd docker
-
-RUN apt-get install -y --no-install-recommends libssl-dev cargo
+               openssl  
 
 RUN apt build-dep -y kdepim-runtime
 
@@ -26,4 +19,6 @@ RUN apt-get install -y cmake checkinstall
 COPY libetebase_0.3.1.deb /
 
 RUN dpkg -i libetebase_0.3.1.deb
+
+COPY build.sh /
 
